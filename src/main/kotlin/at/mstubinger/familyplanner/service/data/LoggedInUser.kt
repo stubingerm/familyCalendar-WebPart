@@ -6,14 +6,14 @@ package at.mstubinger.familyplanner.service.data
  */
 data class LoggedInUser(
     //@Json(name="uid")
-    val uid: String,
+        val uid: String,
     //@Json(name = "firstName")
-    val firstname: String,
+        val firstname: String,
     //@Json(name = "lastName")
-    val lastname: String,
+        val lastname: String,
     //@Json(name = "email")
-    val email: String,
+        val email: String,
     //@Json(name = "appointments")
-    val appointments: ArrayList<Appointment>
+        val appointments: ArrayList<Appointment>?
 
 )

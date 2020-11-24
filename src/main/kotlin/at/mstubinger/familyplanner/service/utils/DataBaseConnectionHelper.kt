@@ -17,7 +17,7 @@ class DataBaseConnectionHelper {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance()
             conn = DriverManager.getConnection(
                     "jdbc:" + "mysql" + "://"+
-                            "95.217.133.168:3306/",
+                            "95.217.133.168:3306/APP_FAMILY_CAL",
                     connectionProps
             )
         } catch (ex: SQLException){
@@ -30,7 +30,7 @@ class DataBaseConnectionHelper {
 
     }
 
-    fun query(query:String){
+    fun query(query:String): ResultSet? {
 
         var stmt: Statement? =null
         var resultset: ResultSet? = null
@@ -43,14 +43,14 @@ class DataBaseConnectionHelper {
                 resultset = stmt.resultSet
             }
 
-            while (resultset!!.next()){
-                println(resultset)
-            }
+
 
         }catch (ex: SQLException){
             //handle sql exceptions
             ex.printStackTrace()
         }
+
+        return resultset
 
     }
 
