@@ -40,20 +40,26 @@ class LoginController {
             println(resultSet.getString("EMAIL"))
         }
 
-        if (rows==0){
+        if (rows<1){
             response.status=401
-            //return null
+            // mail/pwd combination not found
+        } else if(rows==1){
+            val userData = LoggedInUser(
+                    resultSet.getString("ID"),
+                    resultSet.getString("FIRSTNAME"),
+                    resultSet.getString("LASTNAME"),
+                    resultSet.getString("EMAIL"),
+                    ArrayList<Appointment>()
+            )
+            response.status=200
+            return userData
+        } else {
+            response.status=401
         }
 
-        val userData = LoggedInUser(
-                resultSet.getString("ID"),
-                resultSet.getString("FIRSTNAME"),
-                resultSet.getString("LASTNAME"),
-                resultSet.getString("EMAIL"),
-                ArrayList<Appointment>()
-        )
-        response.status=200
-        return userData
+        return null
+
+
     }
 
 }
