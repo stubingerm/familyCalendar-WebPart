@@ -14,6 +14,7 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -25,7 +26,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
    // implementation ("com.beust:klaxon:5.0.1")
     implementation("mysql:mysql-connector-java")
-
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 }
 
 tasks.withType<Test> {
