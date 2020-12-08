@@ -1,5 +1,7 @@
 package at.mstubinger.familyplanner.service.utils
 
+import at.mstubinger.familyplanner.service.data.Appointment
+import at.mstubinger.familyplanner.service.data.LoggedInUser
 import java.sql.*
 import java.util.*
 
@@ -49,8 +51,18 @@ class DataBaseConnectionHelper {
         return resultset
     }
 
-    fun uniqueCheck(query: String){
-        
+    fun uniqueCheck(query: String, column:String):Int{
+        var resultSet = query(query)
+
+        println("do unique check. Query: $query")
+
+        var rows = 0
+        var count:Int = -1
+
+        if (resultSet!!.next()){
+            count = resultSet.getInt(column)
+        }
+        return count
     }
 
     fun update(query: String){

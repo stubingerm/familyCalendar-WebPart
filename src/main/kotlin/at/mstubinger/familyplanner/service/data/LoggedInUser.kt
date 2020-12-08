@@ -8,9 +8,9 @@ data class LoggedInUser(
     //@Json(name="uid")
         val uid: String,
     //@Json(name = "firstName")
-        val firstname: String,
+        val firstName: String,
     //@Json(name = "lastName")
-        val lastname: String,
+        val lastName: String,
     //@Json(name = "email")
         val email: String,
     //@Json(name = "appointments")
