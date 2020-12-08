@@ -42,15 +42,20 @@ class DataBaseConnectionHelper {
             if (stmt.execute(query)){
                 resultset = stmt.resultSet
             }
-
-
-
         }catch (ex: SQLException){
             //handle sql exceptions
             ex.printStackTrace()
         }
-
         return resultset
+    }
+
+    fun uniqueCheck(query: String){
+        
+    }
+
+    fun update(query: String){
+
+        val result = conn!!.createStatement().executeUpdate(query)
 
     }
 
