@@ -59,7 +59,7 @@ class AppointmentsController {
             request: HttpServletRequest
     ){
 
-        
+        dbah.deleteAppointment(userId, apptId)
 
     }
 

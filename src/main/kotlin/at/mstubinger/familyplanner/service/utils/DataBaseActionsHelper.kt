@@ -51,5 +51,30 @@ class DataBaseActionsHelper {
 
     }
 
+    fun deleteAppointment(userId: String, apptId: String) {
+
+        val query = "DELETE FROM APPOINTMENTS WHERE APPOINTMENT_ID = $apptId AND APPTOWNER_ID = $userId"
+
+        dbch.update(query)
+
+    }
+
+    fun updateAppointment(userId: String, apptId: String, appointment: Appointment){
+
+        val apptType = appointment.getType()
+
+        val query = "UPDATE APPOINTMENTS " +
+                "SET TITLE = '${appointment.title}'," +
+                "LOCATION = '${appointment.location}'," +
+                "TYPE = $apptType," +
+                "REOCCURENCE = '${appointment.reoccurance}'," +
+                "START = '${appointment.startDate.date}'," +
+                "END = '${appointment.endDate.date}' " +
+                "WHERE APPOINTMENT_ID=$apptId AND APPTOWNER_ID=$userId"
+
+        dbch.update(query)
+
+    }
+
 
 }

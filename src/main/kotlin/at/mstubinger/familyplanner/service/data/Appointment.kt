@@ -37,4 +37,14 @@ data class Appointment(
         val duration = Duration.between(startDate.date,endDate.date).toMillis()
         return duration
     }
+
+    fun getType(): Int {
+
+        when(this.type!!.toLowerCase()){
+            "birthday" -> return 2
+            "garbage" -> return 3
+            else -> return 1
+        }
+
+    }
 }
