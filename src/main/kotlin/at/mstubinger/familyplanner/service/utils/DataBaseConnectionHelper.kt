@@ -71,6 +71,22 @@ class DataBaseConnectionHelper {
 
     }
 
+    fun getLastInsertedId(): Int {
+
+        val query = "SELECT LAST_INSERT_ID() AS LAST_INSERTED_ID"
+
+        var lastInsertedId = -1
+
+        println("get last inserted id...")
+        var resultSet = query(query)
+
+        if (resultSet!!.next()){
+            lastInsertedId=resultSet.getInt("LAST_INSERTED_ID")
+        }
+
+        return lastInsertedId
+
+    }
 
 
 }

@@ -40,6 +40,15 @@ class DataBaseActionsHelper {
 
         dbch.update(query)
 
+        val lastInsertedQuery = dbch.getLastInsertedId()
+
+        appointment.members.forEach{
+            val isAdmin = if (it==userId) 1 else 0
+            val memberQuery = "INSERT INTO APPOINTMENT_ATTENDEES (APPT_ID, USER_ID, ISADMIN)" +
+                    "VALUES ($lastInsertedQuery, $it, $isAdmin)"
+            dbch.update(memberQuery)
+        }
+
     }
 
 
