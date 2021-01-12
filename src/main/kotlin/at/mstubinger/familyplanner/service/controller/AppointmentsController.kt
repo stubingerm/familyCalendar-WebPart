@@ -51,6 +51,29 @@ class AppointmentsController {
 
     }
 
+    @PostMapping("appointments/update")
+
+    fun updateAppointment(
+            @RequestParam("uid") userId: String,
+            @RequestParam("apptId") apptId: String,
+            @RequestParam("title") title: String,
+            @RequestParam("location") location: String,
+            @RequestParam("type") type: String,
+            @RequestParam("members") members: ArrayList<String>,
+            @RequestParam("reoccurance") reoccurance: String,
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) startDate: LocalDateTime,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) endDate: LocalDateTime,
+            @RequestParam("isFullDayAppointment", required = false) isFullDayAppointment: Boolean,
+            response: HttpServletResponse,
+            request: HttpServletRequest
+    ){
+
+        val appointment = Appointment("",title,location,type,members,reoccurance, fpDateTime(startDate), fpDateTime(endDate))
+
+        dbah.updateAppointment(userId,apptId,appointment)
+
+    }
+
     @PostMapping("appointments/cancel")
     fun cancelAppointment(
             @RequestParam("uid") userId: String,

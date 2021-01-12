@@ -26,7 +26,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
    // implementation ("com.beust:klaxon:5.0.1")
     implementation("mysql:mysql-connector-java")
+    implementation("org.springframework.security:spring-security-crypto")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    implementation("org.springframework.boot:spring-boot-starter-mail")
 }
 
 tasks.withType<Test> {

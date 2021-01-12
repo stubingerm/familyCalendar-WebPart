@@ -5,16 +5,33 @@ import at.mstubinger.familyplanner.service.data.LoggedInUser
 import at.mstubinger.familyplanner.service.enum.customHttpStatusCodes
 import at.mstubinger.familyplanner.service.exceptions.UserNotFoundException
 import at.mstubinger.familyplanner.service.utils.DataBaseConnectionHelper
+import org.springframework.mail.javamail.JavaMailSender
+import org.springframework.security.crypto.keygen.KeyGenerators
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.sql.SQLIntegrityConstraintViolationException
+import javax.crypto.KeyGenerator
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @RestController
 class RegistrationController {
 
+
+    @GetMapping("/activate")
+    fun activate(
+            @RequestParam("string") activationString: String,
+            @RequestParam("uid") userId: String
+    ){
+        val dbch = DataBaseConnectionHelper()
+
+        val query = "UPDATE `USERS` SET `ISACTIVATED` = '1' WHERE `USERS`.`ID` = $userId AND `USERS`.`ACTIVATIONSTRING` = '$activationString'"
+
+        dbch.update(query)
+
+    }
 
 
     @Throws(UserNotFoundException::class)
@@ -30,7 +47,7 @@ class RegistrationController {
 
         val dbch = DataBaseConnectionHelper()
 
-        var activationString = "1234567890abcdef"
+        var activationString = KeyGenerators.string().generateKey()
 
         val uniqueCheckQuery = "SELECT COUNT(EMAIL) AS 'check' FROM USERS WHERE EMAIL='$mail'"
 
@@ -54,9 +71,7 @@ class RegistrationController {
             response.status=customHttpStatusCodes.REGISTRATION_DUPLICATE_MAIL.code
         }
 
-
-
-
+        //ToDo send mail with activation link
     }
 
 }
