@@ -4,12 +4,15 @@ import at.mstubinger.familyplanner.service.data.Appointment
 import at.mstubinger.familyplanner.service.data.LoggedInUser
 import at.mstubinger.familyplanner.service.data.fpDateTime
 import at.mstubinger.familyplanner.service.utils.DataBaseActionsHelper
+import at.mstubinger.familyplanner.service.utils.encryption.encryptionTestEnum
+import com.google.gson.Gson
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -17,15 +20,51 @@ import javax.servlet.http.HttpServletResponse
 class AppointmentsController {
 
     private val dbah = DataBaseActionsHelper()
+    private val eh = encryptionTestEnum()
+    private val encryption = eh.enc
 
     @PostMapping("/appointments/getAll")
     fun getAllAppointments(
             @RequestParam("uid") userId: String,
             response: HttpServletResponse,
             request: HttpServletRequest
-    ): ArrayList<Appointment> {
+    ): String {
 
-        return dbah.getAllAppointments(userId)
+        val resultSet = dbah.getAllAppointments(userId)
+
+        val appointments = ArrayList<Appointment>()
+
+
+        if (resultSet!!.next()){
+
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+
+
+            val appointment = Appointment(
+                    resultSet.getString("APPOINTMENT_ID"),
+                    resultSet.getString("TITLE"),
+                    resultSet.getString("LOCATION"),
+                    resultSet.getString("TYPE_"),
+                    ArrayList(resultSet.getString("MEMBERS").split(",").map {it.trim()}),
+                    resultSet.getString("REOCCURENCE"),
+                    fpDateTime(LocalDateTime.parse(resultSet.getString("START"),formatter)),
+                    fpDateTime(LocalDateTime.parse(resultSet.getString("END"),formatter))
+            )
+
+            appointments.add(appointment)
+
+        }
+
+            val gson = Gson()
+
+            val jsonString = gson.toJson(appointments)
+
+
+            //val encryptedString = encryption.encryptOrNull(jsonString)
+            val encryptedString = eh.encrypt(jsonString)
+
+            return encryptedString
+       // return jsonString
 
     }
 

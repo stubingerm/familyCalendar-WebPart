@@ -15,6 +15,7 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 repositories {
     mavenCentral()
     jcenter()
+    maven("https://jitpack.io")
 }
 
 dependencies {
@@ -29,6 +30,9 @@ dependencies {
     implementation("org.springframework.security:spring-security-crypto")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     implementation("org.springframework.boot:spring-boot-starter-mail")
+    implementation ("com.google.code.gson:gson")
+    implementation ("org.bouncycastle:bcprov-jdk15on:1.52")
+    implementation("com.github.simbiose:Encryption:2.0.1")
 }
 
 tasks.withType<Test> {

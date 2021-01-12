@@ -1,22 +1,25 @@
 package at.mstubinger.familyplanner.service.utils
 
 import at.mstubinger.familyplanner.service.data.Appointment
-import java.time.format.DateTimeFormatter
+import java.sql.ResultSet
 
 class DataBaseActionsHelper {
 
     private val dbch = DataBaseConnectionHelper()
 
 
-    fun getAllAppointments (userId:String): ArrayList<Appointment> {
+    fun getAllAppointments (userId:String): ResultSet? {
 
         val appointments:ArrayList<Appointment> = ArrayList()
 
-        val query = "SELECT * FROM APPOINTMENTS" +
-                "WHERE APPTOWNER_ID='$userId'"
+        //val query = "SELECT APPOINTMENT_ID, APPTOWNER_ID, TITLE, LOCATION, APPOINTMENT_TYPES.NAME as \"TYPE_\", REOCCURENCE, START, END FROM APPOINTMENTS, APPOINTMENT_TYPES WHERE APPOINTMENT_TYPES.APPT_TYPE_ID=APPOINTMENTS.TYPE AND " +
+           //     "APPOINTMENTS.APPTOWNER_ID='$userId'"
 
+        val query = "SELECT APPOINTMENT_ID, APPTOWNER_ID, MEMBERS, TITLE, LOCATION, APPOINTMENT_TYPES.NAME as \"TYPE_\", REOCCURENCE, START, END FROM APPOINTMENTS, APPOINTMENT_TYPES, (SELECT APPT_ID, GROUP_CONCAT(USER_ID) AS MEMBERS FROM `APPOINTMENT_ATTENDEES` GROUP BY APPT_ID) MEMBERSHIP WHERE APPOINTMENT_TYPES.APPT_TYPE_ID=APPOINTMENTS.TYPE AND APPOINTMENTS.APPTOWNER_ID='$userId' AND MEMBERSHIP.APPT_ID=APPOINTMENTS.APPOINTMENT_ID"
 
-        return appointments
+        println(query)
+
+        return dbch.query(query)
 
     }
 
