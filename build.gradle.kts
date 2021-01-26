@@ -35,6 +35,7 @@ dependencies {
     implementation("com.github.simbiose:Encryption:2.0.1")
 }
 
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }

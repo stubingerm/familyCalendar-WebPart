@@ -1,6 +1,7 @@
 package at.mstubinger.familyplanner.service.controller
 
 import at.mstubinger.familyplanner.service.data.Appointment
+import at.mstubinger.familyplanner.service.utils.encryption.CipherTester
 import at.mstubinger.familyplanner.service.utils.encryption.encryptionTestEnum
 import org.apache.tomcat.util.codec.binary.Base64
 import org.springframework.web.bind.annotation.PostMapping
@@ -16,17 +17,14 @@ class DecryptTestController {
     private val encryption = eh.enc
 
     @PostMapping("/decryptTest")
-    fun getAllAppointments(
-            @RequestParam("cipher") cipher: String,
+    fun decryptTest(
             response: HttpServletResponse,
             request: HttpServletRequest
     ): String? {
 
-        lateinit var decrypt:String
+        CipherTester().test()
 
-
-        decrypt = encryption.decryptOrNull(cipher)
-        return decrypt
+        return "Output is printed to Server Logs!"
 
     }
 

@@ -20,4 +20,8 @@ class encryptionTestEnum() {
         return cipher
     }
 
+    fun decrypt(cipher: String): String? {
+        return enc.decryptOrNull(cipher)
+    }
+
 }
