@@ -30,30 +30,9 @@ class AppointmentsController {
             request: HttpServletRequest
     ): String {
 
-        val resultSet = dbah.getAllAppointments(userId)
+        //val resultSet = dbah.getAllAppointments(userId)
 
-        val appointments = ArrayList<Appointment>()
-
-
-        if (resultSet!!.next()){
-
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-
-
-            val appointment = Appointment(
-                    resultSet.getString("APPOINTMENT_ID"),
-                    resultSet.getString("TITLE"),
-                    resultSet.getString("LOCATION"),
-                    resultSet.getString("TYPE_"),
-                    ArrayList(resultSet.getString("MEMBERS").split(",").map {it.trim()}),
-                    resultSet.getString("REOCCURENCE"),
-                    fpDateTime(LocalDateTime.parse(resultSet.getString("START"),formatter)),
-                    fpDateTime(LocalDateTime.parse(resultSet.getString("END"),formatter))
-            )
-
-            appointments.add(appointment)
-
-        }
+        val appointments = dbah.getAllAppointmentsAsList(userId)
 
             val gson = Gson()
 

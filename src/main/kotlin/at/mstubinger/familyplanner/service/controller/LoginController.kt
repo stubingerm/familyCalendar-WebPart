@@ -3,6 +3,7 @@ package at.mstubinger.familyplanner.service.controller
 import at.mstubinger.familyplanner.service.data.Appointment
 import at.mstubinger.familyplanner.service.data.LoggedInUser
 import at.mstubinger.familyplanner.service.exceptions.UserNotFoundException
+import at.mstubinger.familyplanner.service.utils.DataBaseActionsHelper
 import at.mstubinger.familyplanner.service.utils.DataBaseConnectionHelper
 import at.mstubinger.familyplanner.service.utils.encryption.encryptionTestEnum
 import com.google.gson.Gson
@@ -33,6 +34,7 @@ class LoginController {
     ): String? {
 
         val dbch = DataBaseConnectionHelper()
+        val dbah = DataBaseActionsHelper()
 
         val query = "SELECT * FROM USERS WHERE EMAIL = '$mail' " /*+
                 "AND PASSWORD = '$password';"*/
@@ -57,7 +59,7 @@ class LoginController {
                     resultSet.getString("FIRSTNAME"),
                     resultSet.getString("LASTNAME"),
                     resultSet.getString("EMAIL"),
-                    ArrayList<Appointment>()
+                    dbah.getAllAppointmentsAsList(resultSet.getString("ID"))
             )
             response.status=200
 
