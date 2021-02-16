@@ -80,18 +80,36 @@ class DataBaseActionsHelper {
         val endDate = appointment.endDate.date.toString()
 
         val query = "INSERT INTO APPOINTMENTS (APPTOWNER_ID, TITLE, LOCATION, TYPE, REOCCURENCE, START, END, ISFULLDAYAPPT)" +
-                "VALUES ($userId, '${appointment.title}', '${appointment.location}',$apptType , '${appointment.reoccurance}', '$startDate', '$endDate', $isFullDayAppt)"
+                "VALUES ($userId, '${appointment.title}', '${appointment.location}', $apptType , '${appointment.reoccurance}', '$startDate', '$endDate', $isFullDayAppt)"
+
+        println("AddAppt. Query: $query")
+
+        println("Memberstring:${appointment.members}")
 
         dbch.update(query)
 
         val lastInsertedQuery = dbch.getLastInsertedId()
 
-        appointment.members.forEach{
-            val isAdmin = if (it==userId) 1 else 0
-            val memberQuery = "INSERT INTO APPOINTMENT_ATTENDEES (APPT_ID, USER_ID, ISADMIN)" +
-                    "VALUES ($lastInsertedQuery, $it, $isAdmin)"
-            dbch.update(memberQuery)
+        val members = appointment.members[0].split(",")
+
+        println("Appointment Member Array: ${members}")
+
+        if(members.size > 0){
+            members.forEach{
+                if (it!=userId){
+                    val memberQuery = "INSERT INTO APPOINTMENT_ATTENDEES (APPT_ID, USER_ID, ISADMIN)" +
+                            "VALUES ('$lastInsertedQuery', '$it', 0)"
+                    println("Member add - row update: $memberQuery")
+                    dbch.update(memberQuery)
+                }
+            }
         }
+
+        val memberSelfQuery = "INSERT INTO APPOINTMENT_ATTENDEES (APPT_ID, USER_ID, ISADMIN)" +
+                "VALUES ('$lastInsertedQuery', '$userId', 1)"
+        println("Member self add - row update: $memberSelfQuery")
+
+
 
     }
 

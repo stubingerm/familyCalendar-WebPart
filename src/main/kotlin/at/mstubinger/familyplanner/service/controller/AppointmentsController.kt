@@ -15,6 +15,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import kotlin.reflect.typeOf
 
 @RestController
 class AppointmentsController {
@@ -62,6 +63,15 @@ class AppointmentsController {
             response: HttpServletResponse,
             request: HttpServletRequest
     ){
+
+        val membersArray = members.toString().replace("[","").replace("]","").replace("\"","").split(",")
+
+        var members = ArrayList<String>()
+
+        for (i in membersArray){
+            members.add(i.trim())
+        }
+
 
         val appointment = Appointment("",title,location,type,members,reoccurance, fpDateTime(startDate), fpDateTime(endDate))
 
