@@ -6,6 +6,7 @@ import at.mstubinger.familyplanner.service.exceptions.UserNotFoundException
 import at.mstubinger.familyplanner.service.utils.DataBaseActionsHelper
 import at.mstubinger.familyplanner.service.utils.DataBaseConnectionHelper
 import at.mstubinger.familyplanner.service.utils.encryption.encryptionTestEnum
+import com.beust.klaxon.Klaxon
 import com.google.gson.Gson
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -67,13 +68,17 @@ class LoginController {
 
             val jsonString = gson.toJson(userData)
 
+            val kJson = Klaxon().toJsonString(userData)
+
+            println("klaxon string: $kJson")
+
 
             //val encryptedString = encryption.encryptOrNull(jsonString)
-            val encryptedString = eh.encrypt(jsonString)
+            val encryptedString = eh.encrypt(kJson)
 
             val decryptedString = encryption.decryptOrNull(encryptedString)
 
-            //return jsonString
+            //return kJson
             return encryptedString
 
 

@@ -25,7 +25,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-   // implementation ("com.beust:klaxon:5.0.1")
+    implementation ("com.beust:klaxon:5.0.1")
     implementation("mysql:mysql-connector-java")
     implementation("org.springframework.security:spring-security-crypto")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
@@ -33,6 +33,7 @@ dependencies {
     implementation ("com.google.code.gson:gson")
     implementation ("org.bouncycastle:bcprov-jdk15on:1.52")
     implementation("com.github.simbiose:Encryption:2.0.1")
+
 }
 
 

@@ -1,5 +1,6 @@
 package at.mstubinger.familyplanner.service.data
 
+import com.google.gson.annotations.JsonAdapter
 import java.time.Duration
 import java.util.*
 

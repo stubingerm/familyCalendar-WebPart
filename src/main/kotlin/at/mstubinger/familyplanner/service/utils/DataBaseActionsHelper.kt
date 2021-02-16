@@ -59,6 +59,7 @@ class DataBaseActionsHelper {
 
         }
 
+
         return appointments
 
     }
